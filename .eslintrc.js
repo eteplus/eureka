@@ -9,6 +9,10 @@ module.exports = {
   plugins: [
     'html'
   ],
+  env: {
+    'browser': true,
+    'es6': true
+  },
   // check if imports actually resolve
   'settings': {
     'import/resolver': {
@@ -24,6 +28,7 @@ module.exports = {
       'js': 'never',
       'vue': 'never'
     }],
+    'comma-dangle': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

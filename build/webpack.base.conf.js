@@ -86,9 +86,23 @@ module.exports = {
   vue: {
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
     postcss: [
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
+      require('postcss-cssnext')({
+        browsers: ['last 2 versions', 'Android >= 4.0']
+      }),
+      require('postcss-bem')({
+        defaultNamespace: undefined,
+        style: 'bem',
+        separators: {
+          'descendent': '__',
+          'modifier': '--',
+        },
+        shortcuts: {
+          'component': 'b',
+          'modifier': 'm',
+          'descendent': 'e'
+        }
+      }),
+      require('postcss-px2rem')
     ]
   }
 }

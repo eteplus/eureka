@@ -14,7 +14,6 @@
     "vuex": "^2.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.5.3",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
@@ -42,6 +41,9 @@
     "json-loader": "^0.5.4",
     "opn": "^4.0.2",
     "ora": "^0.3.0",
+    "postcss-bem": "^0.4.1",
+    "postcss-cssnext": "^2.8.0",
+    "postcss-px2rem": "^0.3.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.5",
     "url-loader": "^0.5.7",
