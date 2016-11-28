@@ -2,18 +2,13 @@
 const routes = [
   {
     path: '/',
-    name: 'index',
-    component: require('./views/index.vue')
+    name: 'home',
+    component: require('./views/home.vue')
   },
   {
-    path: '/foo',
-    name: 'foo',
-    component: resolve => require(['./components/Foo.vue'], resolve)
-  },
-  {
-    path: '/bar',
-    name: 'bar',
-    component: resolve => require(['./components/Bar.vue'], resolve)
+    path: '/article/:year/:month/:title',
+    name: 'article',
+    component: resolve => require(['./views/article.vue'], resolve)
   },
   {
     path: '*',
@@ -23,3 +18,4 @@ const routes = [
 ];
 
 export default routes;
+

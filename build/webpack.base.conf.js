@@ -86,6 +86,9 @@ module.exports = {
   vue: {
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
     postcss: [
+      require('postcss-import')({
+        addDependencyTo: require('webpack')
+      }),
       require('postcss-cssnext')({
         browsers: ['last 2 versions', 'Android >= 4.0']
       }),
@@ -101,8 +104,7 @@ module.exports = {
           'modifier': 'm',
           'descendent': 'e'
         }
-      }),
-      require('postcss-px2rem')
+      })
     ]
   }
 }

@@ -9,9 +9,15 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "highlight.js": "^9.8.0",
+    "marked": "^0.3.6",
+    "mermaid": "^6.0.0",
+    "mockjs": "^1.0.1-beta3",
     "vue": "^2.0.8",
     "vue-router": "^2.0.3",
-    "vuex": "^2.0.0"
+    "vuex": "^2.0.0",
+    "vuex-router-sync": "next",
+    "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -43,6 +49,7 @@
     "ora": "^0.3.0",
     "postcss-bem": "^0.4.1",
     "postcss-cssnext": "^2.8.0",
+    "postcss-import": "^8.2.0",
     "postcss-px2rem": "^0.3.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.5",
