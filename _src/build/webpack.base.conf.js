@@ -1,7 +1,7 @@
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
+var projectRoot = path.resolve(__dirname, '../../')
 
 var env = process.env.NODE_ENV
 // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
@@ -12,7 +12,7 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './_src/src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -21,7 +21,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.vue'],
-    fallback: [path.join(__dirname, '../node_modules')],
+    fallback: [path.join(__dirname, '../../node_modules')],
     alias: {
       'vue$': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   resolveLoader: {
-    fallback: [path.join(__dirname, '../node_modules')]
+    fallback: [path.join(__dirname, '../../node_modules')]
   },
   module: {
     preLoaders: [

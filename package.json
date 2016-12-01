@@ -7,8 +7,8 @@
     "eureka": "bin/eureka"
   },
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "dev": "node _src/build/dev-server.js",
+    "build": "node _src/build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {

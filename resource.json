@@ -1,7 +1,7 @@
 {
   "css": {
    "pure": [
-     "static/css/pure-min.css"
+     "_src/static/css/pure-min.css"
    ]
   }
 }

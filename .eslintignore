@@ -1,6 +1,6 @@
-build/*.js
-config/*.js
+_src/build/*.js
+_src/config/*.js
 
-static/*.js
+_src/static/*.js
 
 bin/
