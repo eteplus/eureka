@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node _src/build/dev-server.js",
     "build": "node _src/build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "eslint": "eslint --ext .js,.vue _src"
   },
   "dependencies": {
     "chalk": "^1.1.3",

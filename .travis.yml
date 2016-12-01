@@ -1,4 +1,13 @@
 language: node_js
+
 node_js:
-  - "node"
-cache: yarn
+  - "0.12"
+  - "4"
+  - "6"
+  - "7"
+
+cache:
+  yarn: true
+
+script:
+  - npm run eslint

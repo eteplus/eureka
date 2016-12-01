@@ -1,6 +1,7 @@
 _src/build/*.js
 _src/config/*.js
-
 _src/static/*.js
 
 bin/
+
+site/
