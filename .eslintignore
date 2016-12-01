@@ -2,3 +2,5 @@ build/*.js
 config/*.js
 
 static/*.js
+
+bin/

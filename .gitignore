@@ -2,7 +2,8 @@
 node_modules/
 dist/
 npm-debug.log
+yarn-error.log
 
 .vscode/
-
-yarn-error.log
+_source/_posts/
+site/data/

@@ -5,32 +5,32 @@
   </button>
   <div class="menu__profile">
     <router-link :to="{ name: 'home' }">
-      <img class="menu__logo" src="/static/img/ulike_black.png" alt="eureka blog">
+      <img class="menu__logo" src="/static/img/ulike_black.png" :alt="name + '\'s blog'">
     </router-link>
-    <span>Eureka</span>
-    <small>eteplus means eternally plus. <i class="iconfont icon-infinite"></i></small>
+    <span>{{ name }}</span>
+    <small v-if="desc" v-html="desc"></small>
   </div>
   <ul class="menu__links">
     <li>
-      <a href="/" title="首页" class="menu__link">
+      <router-link :to="{ name: 'home' }" title="首页" class="menu__link">
         <i class="menu__icon iconfont icon-hot"></i>
         <span>Recent</span>
-      </a>
+      </router-link>
     </li>
     <li>
-      <a href="/archives/" title="归档" class="menu__link">
+      <router-link :to="{ name: 'archives' }" title="归档" class="menu__link">
         <i class="menu__icon iconfont icon-archive"></i>
         <span>Archive</span>
-      </a>
+      </router-link>
     </li>
     <li>
-      <a href="/tags/" title="标签" class="menu__link">
+      <router-link :to="{ name: 'tags' }" title="标签" class="menu__link">
         <i class="menu__icon iconfont icon-tag"></i>
         <span>Tags</span>
-      </a>
+      </router-link>
     </li>
     <li>
-      <a href="/tags/" title="github" class="menu__link">
+      <a :href="github" title="github" class="menu__link">
         <i class="menu__icon iconfont icon-github"></i>
         <span>Github</span>
       </a>
@@ -45,7 +45,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    name: String,
+    desc: String,
+    github: String
+  }
+};
 </script>
 
 <style>

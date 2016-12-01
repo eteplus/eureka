@@ -6,7 +6,7 @@
       :author="post.author"
       :title="post.title"
       :description="post.description"
-      :datetime="post.datetime"
+      :date="post.date"
       :tags="post.tags"
       :url="post.url"
     />
@@ -20,34 +20,17 @@ import Post from '../components/Post';
 export default {
   data() {
     return {
-      total: 1,
       posts: []
     };
   },
   mounted() {
-    /* eslint-disable */
-    const Mock = require('mockjs');
-
     // /\/source\/posts\/*\.json/
-    fetch('/source/posts/posts.json')
+    fetch('/data/posts.json')
       .then(res => res.json())
       .then((data) => {
-        const mock = Mock.mock({
-          total: function() {
-            return this.posts.length;
-          },
-          'posts|4-10': [{
-            author: '@cword(4,8)',
-            title: '@title(5, 30)',
-            description: '@sentence(30, 80)',
-            datetime: '@datetime',
-            'tags|2-3': ['@cword(2,10)'],
-            url: '@url'
-          }]
-        });
-        const { total, posts } = mock;
-        this.posts = posts;
-        this.total = total;
+        // const { total, posts } = data;
+        this.posts = data;
+        // this.total = total;
       })
       .catch((err) => {
         console.log(err);

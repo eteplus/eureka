@@ -1,0 +1,12 @@
+#! /usr/bin/env node --harmony-async-await
+
+const yargs = require('yargs')
+  .usage('Usage: eureka <command> [options]')
+  .commandDir('commands')
+  .version(`eureka: ${require('../package.json').version}`)
+  .help()
+  .showHelpOnFail(false, 'Specify --help for available options')
+  .epilogue(`For more help, you can use 'eureka help [command]' for the detailed information`);
+if (!yargs.argv.version && yargs.argv._.length < 1) {
+  yargs.showHelp();
+}

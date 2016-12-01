@@ -3,7 +3,7 @@
   <div class="article__title">
     <h1>{{article.title}}</h1>
     <div class="article__meta">
-      <i class="iconfont icon-calendar"></i> &nbsp;{{date}}
+      <i class="iconfont icon-calendar"></i> &nbsp;{{article.date}}
       &nbsp;<a href="/about">{{article.author}}</a>
     </div>
     <div class="article__tags">
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { trim, resolve } from '../utils';
 
 export default {
   data() {
@@ -26,26 +25,19 @@ export default {
     };
   },
   computed: {
-    date() {
-      return this.article.datetime && this.article.datetime.split(' ')[0];
-    }
+    // date() {
+    //   return this.article.date && this.article.date.split(' ')[0];
+    // }
   },
   mounted() {
-    fetch('/source/posts/2016/11/你好啊，傻逼！.md')
-      .then(res => res.text())
-      .then((markdown) => {
-        if (!trim(markdown).length) {
-          throw new Error('Article is Empty');
-        }
-        const { data, msg, status } = resolve(markdown);
-        if (status !== 'Success') {
-          throw new Error(msg);
-        }
+    const { params } = this.$store.state.route;
+    console.log(params);
+    fetch(`/data/posts/${params.year}/${params.month}/${params.title}.json`)
+      .then(res => res.json())
+      .then((data) => {
         this.article = {
-          ...data.metas,
-          content: data.content
+          ...data
         };
-        return true;
       })
       .catch((err) => {
         console.warn(err);

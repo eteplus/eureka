@@ -11,6 +11,16 @@ const routes = [
     component: resolve => require(['./views/article.vue'], resolve)
   },
   {
+    path: '/archives',
+    name: 'archives',
+    component: resolve => require(['./views/archives.vue'], resolve)
+  },
+  {
+    path: '/tags',
+    name: 'tags',
+    component: resolve => require(['./views/tags.vue'], resolve)
+  },
+  {
     path: '*',
     name: '404',
     component: require('./views/404')

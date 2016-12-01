@@ -3,7 +3,11 @@
   <a id="menu-open" class="menu-open" href="#menu">
     <i class="iconfont icon-category"></i>
   </a>
-  <sidebar id="menu" />
+  <sidebar id="menu"
+    :github="github"
+    :name="name"
+    :desc="desc"
+  />
   <div class="content pure-u-1">
     <transition name="fade" mode="out-in">
       <router-view></router-view>
@@ -24,6 +28,13 @@
 import Sidebar from './components/SideBar';
 
 export default {
+  data() {
+    return {
+      github: 'http://github.com/eteplus',
+      name: 'Eteplus',
+      desc: 'eteplus means eternally plus. <i class="iconfont icon-infinite"></i>'
+    };
+  },
   mounted() {
     this.$nextTick(() => {
       const app = document.getElementById('app');

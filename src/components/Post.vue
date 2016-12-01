@@ -8,7 +8,7 @@
       </router-link>
 
       <p class="post__meta">
-        <i class="iconfont icon-calendar"></i>&nbsp;&nbsp;{{ date }}
+        <i class="iconfont icon-calendar"></i>&nbsp;&nbsp;{{ dates }}
         &nbsp;<a href="#" class="post__author">{{author}}</a>
       </p>
     </header>
@@ -17,7 +17,7 @@
     </div>
     <div class="post__footer">
       <div class="post__tags">
-        <a class="post__tag"
+        <a class="post__tag "
           href="#"
           v-for="tag in tags">
           {{tag}}
@@ -34,7 +34,7 @@ export default {
     url: String,
     author: String,
     title: String,
-    datetime: String,
+    date: String,
     description: String,
     tags: Array
   },
@@ -42,14 +42,14 @@ export default {
     avatar() {
       return `/static/img/authors/${this.author !== 'eteplus' ? 'eteplus' : this.author}.png`;
     },
-    date() {
-      return this.datetime.replace(/^\s+|\s+$/g, '').split(' ')[0];
+    dates() {
+      return this.date.replace(/^\s+|\s+$/g, '').split(' ')[0];
     },
     year() {
-      return new Date(this.datetime).getFullYear();
+      return new Date(this.date).getFullYear();
     },
     month() {
-      return new Date(this.datetime).getMonth() + 1;
+      return new Date(this.date).getMonth() + 1;
     }
   }
 };
