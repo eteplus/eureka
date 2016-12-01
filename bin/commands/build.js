@@ -16,7 +16,8 @@ const builder = (yargs) => {
   marked.setOptions({
     highlight: (code) => {
       return require('highlight.js').highlightAuto(code).value;
-    }
+    },
+    gfm: true
   });
   const argv = yargs.reset()
     .usage('Usage: eureka build')
@@ -45,7 +46,7 @@ const handler = (argv) => {
       return;
     }
     const [year, month, file] = item.path.replace(`${postsPath}/`, '').split(/\//);
-    const filename = path.basename(item.path, '.md');
+    const filename = path.basename(item.path, '.md').replace(/[\，|\s]/g, '-');
     // create post file path
     const filePath = `data/posts/${year}/${month}`;
     fse.ensureDirSync(`${rootPath}/site/${filePath}`);
@@ -74,14 +75,14 @@ const handler = (argv) => {
     }).html;
     Object.assign(post, {
       description: description,
-      url: `/${filePath}/${filename}.json`
+      url: `/${year}/${month}/${filename}`
     });
     posts.push(post);
     // post partial info
     const sitem = {
       title: post.title,
       date: post.date,
-      url: `/${filePath}/${filename}.json`
+      url: `/${year}/${month}/${filename}`
     };
     // archive
     const date = `${year}-${month}`;
@@ -102,13 +103,14 @@ const handler = (argv) => {
     // archives
     fse.outputJSONSync(`${dataPath}/archives.json`, archives);
     // tags
-    const tagList = {};
-    for(let key in tags) {
-      fse.outputJSONSync(`${dataPath}/tags/${key}.json`, tags[key]);
-      tagList[key] = {
-        total: tags[key].length,
-        url: `/data/tags/${key}.json`
-      };
+    const tagList = [];
+    for(let name in tags) {
+      fse.outputJSONSync(`${dataPath}/tags/${name}.json`, tags[name]);
+      tagList.push({
+        name: name,
+        total: tags[name].length,
+        url: `/data/tags/${name}.json`
+      });
     }
     fse.outputJSONSync(`${dataPath}/tags.json`, tagList);
     spinner.text = chalk.green('Build succeed');

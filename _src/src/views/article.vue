@@ -7,11 +7,15 @@
       &nbsp;<a href="/about">{{article.author}}</a>
     </div>
     <div class="article__tags">
-      <a class="article__tag" v-for="tag in article.tags">{{tag}}</a>
+      <router-link
+        class="article__tag pure-button"
+        v-for="tag in article.tags"
+        :to="{ name: 'tag', params: { tag: tag }}">
+        {{tag}}
+      </router-link>
     </div>
   </div>
-
-  <div class="article__content" v-html="article.content">
+  <div class="article__content markdown-body" v-html="article.content">
   </div>
 </div>
 </template>
@@ -47,6 +51,7 @@ export default {
 </script>
 
 <style>
+
 @b article {
 
   @e title {
@@ -67,11 +72,11 @@ export default {
   }
 
   @e tag {
-    padding: 0.3em 0.4em;
+    /* padding: 0.3em 0.4em; */
     color: #fff;
     background: #4d85d1;
     font-size: 80%;
-    border-radius: 0.4em;
+    border-radius: 20px;
     margin-right: 0.4rem;
     cursor: pointer;
   }
@@ -88,7 +93,8 @@ export default {
 .article__title {
   & h1 {
     margin: 0.2em 0;
-    font-weight: 300;
+    font-size: 1.5em;
+    font-weight: 400;
   }
   & h2 {
     font-weight: 300;

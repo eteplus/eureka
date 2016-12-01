@@ -16,9 +16,9 @@
   <div class="footer pure-u-1">
     <div class="pure-menu pure-menu-horizontal">
       <span>© 2016.</span>
-      <a href="http://maybeul.com">Eureka</a>
+      <a href="http://maybeul.com">ETEPLUS</a>
       <span>Powered by</span>
-      <a href="https://github.com/eteplus/eblog">EBlog</a>
+      <a href="https://github.com/eteplus/eureka">EUREKA</a> 🤔
     </div>
   </div>
 </div>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       github: 'http://github.com/eteplus',
-      name: 'Eteplus',
+      name: 'ETEPLUS',
       desc: 'eteplus means eternally plus. <i class="iconfont icon-infinite"></i>'
     };
   },
@@ -84,6 +84,7 @@ export default {
 @import "./assets/css/grids-responsive-min.css";
 @import "./assets/css/iconfont.css";
 @import "./assets/css/_base.css";
+@import './assets/css/markdown.css';
 @import "./assets/css/atelier-forest-light.css";
 
 .app {
@@ -119,6 +120,7 @@ export default {
   padding: 1em 2em;
 }
 
+
 .content,
 .menu-open {
   transition: all 0.2s ease-out;
@@ -139,6 +141,10 @@ export default {
   color: #8e8787;
   font-size: 90%;
   padding: 1em 0;
+}
+
+.markdown-body {
+  padding-top: 1em;
 }
 
 .fade-enter-active, .fade-leave-active {

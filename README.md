@@ -1,6 +1,6 @@
-# Eureka
+# Eureka 🤔
 
-> It's eureka moment for your writing.
+> It's eureka moment for your writing. 🤔
 
 Eureka is a simple blog, based on the [Vue](https://vuejs.org/)
 
