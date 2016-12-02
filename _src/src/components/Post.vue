@@ -93,14 +93,16 @@ export default {
   }
 
   @e tag {
-    /* padding: 0.3em 0.4em; */
-    min-width: 60px;
+    min-width: 50px;
     color: #fff;
-    background: #999;
+    /*background: #999;*/
     font-size: 80%;
     border-radius: 20px;
+    margin-top: 0.4em;
     margin-right: 0.4rem;
-    background: #4d85d1;
+    color: #4d85d1;
+    border: 1px solid #4d85d1;
+    background: white;
 
     @m css {
       background: #5aba59;

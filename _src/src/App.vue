@@ -5,8 +5,9 @@
   </a>
   <sidebar id="menu"
     :github="github"
-    :name="name"
-    :desc="desc"
+    :name="site.name"
+    :desc="site.desc"
+    :logo="site.logo"
   />
   <div class="content pure-u-1">
     <transition name="fade" mode="out-in">
@@ -16,7 +17,7 @@
   <div class="footer pure-u-1">
     <div class="pure-menu pure-menu-horizontal">
       <span>© 2016.</span>
-      <a href="http://maybeul.com">ETEPLUS</a>
+      <a :href=" site.url !== '' ? '//' + site.url : '#' ">{{ site.name }}</a>
       <span>Powered by</span>
       <a href="https://github.com/eteplus/eureka">EUREKA</a> 🤔
     </div>
@@ -30,12 +31,21 @@ import Sidebar from './components/SideBar';
 export default {
   data() {
     return {
-      github: 'http://github.com/eteplus',
-      name: 'ETEPLUS',
-      desc: 'eteplus means eternally plus. <i class="iconfont icon-infinite"></i>'
+      site: {},
+      github: {}
     };
   },
   mounted() {
+    fetch('/data/config.json')
+      .then(res => res.json())
+      .then((config) => {
+        const { site, github } = config;
+        this.site = site;
+        this.github = github;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     this.$nextTick(() => {
       const app = document.getElementById('app');
       const menu = document.getElementById('menu');

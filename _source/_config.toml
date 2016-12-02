@@ -1,0 +1,19 @@
+[site]
+name = 'Eureka'
+desc = 'Eureka! you can record the first snapshots of a Eureka moment. 🤔'
+url = '' # github page CNAME
+
+# Logo, Favicon is stored in the '_src/static' folder.
+logo = 'img/eureka.png' # _src/static/img/ulike_black.png
+# Favicon _src/static/favicon.ico
+
+[meta] # optional
+# default
+keywords = 'eureka,blog,simple,fast,flexible'
+# default
+description = 'Eureka! you can record the first snapshots of a Eureka moment. 🤔'
+
+# github
+[github]
+url = 'https://github.com/eteplus'
+show = true

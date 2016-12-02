@@ -7,6 +7,7 @@ const fsp = require('fs-promise');
 const matter = require('meta-matter');
 const marked = require('marked');
 const trimHtml = require('trim-html');
+const toml = require('toml-j0.4');
 const rootPath = path.resolve(__dirname, '../../');
 const dataPath = path.resolve(rootPath, 'site/data');
 const postsPath = path.resolve(rootPath, '_source/_posts');
@@ -20,7 +21,7 @@ const builder = (yargs) => {
     gfm: true
   });
   const argv = yargs.reset()
-    .usage('Usage: eureka build')
+    .usage('Usage: eureka generate')
     .help()
     .showHelpOnFail()
     .argv;
@@ -35,6 +36,33 @@ const handler = (argv) => {
   fse.ensureDirSync(`${dataPath}/posts`); // posts path
   fse.ensureDirSync(`${dataPath}/archives`) // archives
   fse.ensureDirSync(`${dataPath}/tags`); // tags path
+
+  // config file
+  const configToml = fse.readFileSync(path.resolve(rootPath, '_source/_config.toml'), 'utf-8');
+  let config;
+  try {
+    config = toml.parse(configToml);
+  } catch (e) {
+    if (e instanceof toml.SyntaxError) {
+      throw e;
+    }
+  }
+  fse.outputJSONSync(`${dataPath}/config.json`, config);
+
+  const indexFile = path.resolve(rootPath, 'site/index.html');
+  //It's not be modified if the index.html does not exist.
+  if (test('-f', indexFile)) {
+    // title
+    sed('-i', /<title>[^]+<\/title>/g, `<title>${config.site.name}</title>`, indexFile);
+    // CNAME
+    fse.outputFileSync(path.resolve(rootPath, 'site/CNAME'), config.site.url);
+    if (config.meta) {
+      // keywards
+      sed('-i', /<meta name=\"keywords\" [^>]+\">/g, `<meta name="keywords" content="${config.meta.keywords}">`, indexFile);
+      // description
+      sed('-i', /<meta name=\"description\" [^>]+\">/g, `<meta name="description" content="${config.meta.description}">`, indexFile);
+    }
+  }
 
   const posts = [];
   const archives = {};
@@ -116,12 +144,13 @@ const handler = (argv) => {
     spinner.text = chalk.green('Build succeed');
     spinner.succeed();
   });
+
 };
 
 module.exports = {
-  command: `build`,
+  command: `generate`,
   aliases: [],
-  describe: 'Builds the data files into the desired destination',
+  describe: 'Generate the data files into site floder',
   builder: builder,
   handler: handler
 }
