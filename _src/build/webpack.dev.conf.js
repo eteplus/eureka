@@ -3,7 +3,6 @@ var webpack = require('webpack')
 var merge = require('webpack-merge')
 var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
-console.log(baseWebpackConfig);
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // add hot-reload related code to entry chunks

@@ -101,7 +101,6 @@ export default {
 
   @e logo {
     width: 50%;
-    height: 50%;
     border-radius: 70px;
     overflow: hidden;
   }
