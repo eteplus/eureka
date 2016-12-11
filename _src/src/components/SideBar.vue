@@ -5,7 +5,7 @@
   </button>
   <div class="menu__profile">
     <router-link :to="{ name: 'home' }">
-      <img class="menu__logo" :src=" '/static/' + logo " :alt="name + '\'s blog'">
+      <img class="menu__logo" :src=" '/static/' + logo " :alt="name + '\'s blog'" v-if="logo !== ''">
     </router-link>
     <span>{{ name }}</span>
     <small v-if="desc" v-html="desc"></small>
@@ -50,7 +50,10 @@ export default {
   props: {
     name: String,
     desc: String,
-    logo: String,
+    logo: {
+      type: String,
+      default: ''
+    },
     github: Object
   }
 };
