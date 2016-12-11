@@ -3,31 +3,28 @@
   <div class="page-subhead">
     归档 (Archives)
   </div>
-  <div class="archive" v-for="(posts, date) in archives">
-    <h3>&nbsp; {{date}}</h3>
-    <post-link :posts="posts">
-  </div>
+  <transition-group tag="div" name="list">
+    <div class="archive" v-for="(posts, date) in archives" :key="date">
+      <h3>&nbsp; {{date}}</h3>
+      <post-link :posts="posts">
+    </div>
+  </transition-group>
 </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PostLink from '../components/PostLink';
 
 export default {
-  data() {
-    return {
-      archives: {}
-    };
-  },
-  mounted() {
-    fetch('/data/archives.json')
-      .then(res => res.json())
-      .then((archives) => {
-        this.archives = archives;
-      })
-      .catch((err) => {
-        console.warn(err);
-      });
+  computed: mapState(['archives']),
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      const length = Object.getOwnPropertyNames(vm.archives).length;
+      if (length === 1) {
+        vm.$store.dispatch('FETCH', 'archives');
+      }
+    });
   },
   components: {
     PostLink
@@ -41,5 +38,9 @@ export default {
   font-weight: 400;
   margin-bottom: 0;
   border-left: 3px solid #4d85d1;
+}
+
+.archive {
+  transition: all .3s;
 }
 </style>

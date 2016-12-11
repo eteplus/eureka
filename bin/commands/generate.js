@@ -11,6 +11,7 @@ const toml = require('toml-j0.4');
 const rootPath = path.resolve(__dirname, '../../');
 const dataPath = path.resolve(rootPath, 'site/data');
 const postsPath = path.resolve(rootPath, '_source/_posts');
+const pagesPath = path.resolve(rootPath, '_source/_pages');
 const spinner = ora(chalk.blue('Building data files...'));
 
 const builder = (yargs) => {
@@ -34,8 +35,9 @@ const handler = (argv) => {
   // create data path
   fse.ensureDirSync(dataPath);
   fse.ensureDirSync(`${dataPath}/posts`); // posts path
-  fse.ensureDirSync(`${dataPath}/archives`) // archives
+  // fse.ensureDirSync(`${dataPath}/archives`) // archives
   fse.ensureDirSync(`${dataPath}/tags`); // tags path
+  fse.ensureDirSync(`${dataPath}/pages`); // pages path
 
   // config file
   const configToml = fse.readFileSync(path.resolve(rootPath, '_source/_config.toml'), 'utf-8');
@@ -69,6 +71,7 @@ const handler = (argv) => {
   const tags = {};
 
   spinner.start();
+  // postsPath
   fse.walk(postsPath).on('data', (item) => {
     if (item.stats.isDirectory()) {
       return;
@@ -89,7 +92,7 @@ const handler = (argv) => {
     if (!data) {
       spinner.text = chalk.red(`SyntaxError: ${item.path} meta can't parse.`);
       spinner.fail();
-      spinner.text = chalk.red('Build failed.');
+      spinner.text = chalk.red('Generate failed.');
       spinner.fail();
       throw new Error(`SyntaxError: meta can't parse`);
     }
@@ -103,14 +106,14 @@ const handler = (argv) => {
     }).html;
     Object.assign(post, {
       description: description,
-      url: `/${year}/${month}/${filename}`
+      url: `/${year}/${month}/${encodeURIComponent(filename)}`
     });
     posts.push(post);
     // post partial info
     const sitem = {
       title: post.title,
       date: post.date,
-      url: `/${year}/${month}/${filename}`
+      url: `/${year}/${month}/${encodeURIComponent(filename)}`
     };
     // archive
     const date = `${year}-${month}`;
@@ -141,10 +144,28 @@ const handler = (argv) => {
       });
     }
     fse.outputJSONSync(`${dataPath}/tags.json`, tagList);
-    spinner.text = chalk.green('Build succeed');
+    spinner.text = chalk.green('Generate config, posts, tags, archives successfully');
     spinner.succeed();
   });
 
+  // pagesPath
+  fse.walk(pagesPath).on('data', (item) => {
+    if (item.stats.isDirectory()) {
+      return;
+    }
+    const filename = path.basename(item.path, '.md');
+    const markdown = fse.readFileSync(item.path, 'utf-8');
+    const content = marked(markdown);
+    const page = {
+      name: filename,
+      content
+    };
+    fse.outputJSONSync(`${rootPath}/site/data/pages/${filename}.json`, page);
+  })
+  .on('end', () => {
+    spinner.text = chalk.green('Generate pages successfully');
+    spinner.succeed();
+  });
 };
 
 module.exports = {

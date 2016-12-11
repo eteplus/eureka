@@ -1,7 +1,7 @@
 <template>
-  <section class="post pure-u-1 pure-u-xg-1-2">
+  <section>
     <header class="post__header">
-      <img class="post__avatar" :alt="author + '&#x27;s avatar'" height="48" width="48" :src="avatar">
+      <!-- <img class="post__avatar" :alt="author + '&#x27;s avatar'" height="48" width="48" :src="avatar"> -->
 
       <router-link :to="{ path: '/article' + url }" class="post__title">
         <h2>{{title}}</h2>
@@ -63,6 +63,7 @@ export default {
   padding-bottom: 2em;
   padding-right: 1em;
   border-bottom: 1px dashed #eee;
+  transition: all .3s;
 
   @e title {
     display: block;
@@ -97,6 +98,8 @@ export default {
     color: #fff;
     /*background: #999;*/
     font-size: 80%;
+    height: 2em;
+    line-height: 1;
     border-radius: 20px;
     margin-top: 0.4em;
     margin-right: 0.4rem;

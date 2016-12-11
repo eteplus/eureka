@@ -9,9 +9,13 @@
     :desc="site.desc"
     :logo="site.logo"
   />
-  <div class="content pure-u-1">
+  <div class="content pure-u-1" v-cloak>
+    <!-- loading -->
+    <spinner :show="loading"></spinner>
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
   </div>
   <div class="footer pure-u-1">
@@ -26,31 +30,37 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Sidebar from './components/SideBar';
+import Spinner from './components/Spinner';
 
 export default {
-  data() {
-    return {
-      site: {},
-      github: {}
-    };
+  computed: mapState({
+    site: state => state.config.site,
+    github: state => state.config.github,
+    loading: state => state.global.loading
+  }),
+  created() {
+    this.$store.dispatch('FETCH_CONFIG');
   },
   mounted() {
-    fetch('/data/config.json')
-      .then(res => res.json())
-      .then((config) => {
-        const { site, github } = config;
-        this.site = site;
-        this.github = github;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
     this.$nextTick(() => {
       const app = document.getElementById('app');
       const menu = document.getElementById('menu');
       const menuOpen = document.getElementById('menu-open');
       const menuClose = document.getElementById('menu-close');
+      const menuLinks = document.getElementsByClassName('menu__link');
+      for (let i = 0; i < menuLinks.length; i++) {
+        const active = 'active';
+        menuLinks[i].onclick = (e) => {
+          const width = document.documentElement.clientWidth;
+          if (width < 768) {
+            this.toggleClass(app, active);
+            this.toggleClass(menu, active);
+            this.toggleClass(menuOpen, active);
+          }
+        };
+      }
       menuOpen.onclick = (e) => {
         const active = 'active';
         e.preventDefault();
@@ -85,7 +95,8 @@ export default {
     }
   },
   components: {
-    Sidebar
+    Sidebar,
+    Spinner
   }
 };
 </script>
@@ -96,6 +107,15 @@ export default {
 @import "./assets/css/_base.css";
 @import './assets/css/markdown.css';
 @import "./assets/css/atelier-forest-light.css";
+
+[v-cloak] {
+  display: none;
+}
+
+body {
+  color: #665a5a;
+  /*background: #faf9f5;*/
+}
 
 .app {
   position: relative;
@@ -162,6 +182,16 @@ export default {
 }
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.list-enter-active,
+.list-leave-active{
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 
 @media (width >=48em) {

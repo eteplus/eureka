@@ -2,7 +2,21 @@
 
 > Eureka! you can record the first snapshots of a **Eureka** moment. 🤔
 
+> Note: It's entirely personal interest to do this project that feedback learning effects. The project is in development and will add the feature of generating static html files in the future.
+
 🚀 Eureka is a fast, simple and flexible blog framework, powered by [Vue.js](https://vuejs.org/) and [Node.js](https://nodejs.org/).
+
+## Screenshot
+<p style="text-align:center;">
+<img src="./_source/_images/posts.png" alt="pc-posts" style="border: 1px solid #ebebeb;"/>
+</p>
+<p style="text-align:center;">
+<img src="./_source/_images/article.png" alt="pc-article" style="border: 1px solid #ebebeb;"/>
+</p>
+<p style="text-align:center;">
+<img src="./_source/_images/posts-mobile.png" alt="mobile-posts" style="border: 1px solid #ebebeb;width: 48%;"/>
+<img src="./_source/_images/article-mobile.png" alt="mobile-article" style="border: 1px solid #ebebeb;;width: 48%;"/>
+</p>
 
 ## Easy to use
 
@@ -60,7 +74,7 @@ eureka new "Hello Eureka"
 ```
 
 -** Generate data files **
-> It will generate the config , posts, archive and tag data files separately to the site folder.
+> It will generate the config, pages, posts, archive and tag data files separately to the site folder.
 
 >- **posts**:
   - single post file:  ``site/data/posts/{year}/{month}/{title}.json``
@@ -70,6 +84,10 @@ eureka new "Hello Eureka"
 - **tags**:
   - single tag file: ``site/data/tag/{tag}.json``
   - tag list: ``site/data/tags.json``
+- **config**:
+  - ``site/data/config.json``
+- **pages**:
+  - ``site/data/pages/{page}.json`` - ``site/data/pages/about.json``
 
 ```bash
 eureka generate

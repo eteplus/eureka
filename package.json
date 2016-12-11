@@ -7,6 +7,7 @@
     "eureka": "bin/eureka"
   },
   "scripts": {
+    "start": "nuxt",
     "dev": "node _src/build/dev-server.js",
     "build": "node _src/build/build.js",
     "eslint": "eslint --ext .js,.vue _src"
