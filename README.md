@@ -36,6 +36,7 @@ The primary package that the project will use:
     - [postcss-cssnext](http://cssnext.io/)
     - [postcss-bem](https://www.npmjs.com/package/postcss-bem)
 - Eureka Command
+  - [yargs](https://github.com/yargs/yargs)
   - [shelljs](https://github.com/shelljs/shelljs)
   - [fs-extra](https://github.com/jprichardson/node-fs-extra)
   - [fs-promise](https://github.com/kevinbeaty/fs-promise)
