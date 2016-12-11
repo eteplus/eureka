@@ -28,6 +28,7 @@ module.exports = {
       'js': 'never',
       'vue': 'never'
     }],
+    'no-unused-vars': [2, { 'args': 'none' }],
     'comma-dangle': 0,
     'no-plusplus': 0,
     'no-console': 0,

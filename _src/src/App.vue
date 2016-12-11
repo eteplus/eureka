@@ -5,35 +5,43 @@
   </a>
   <sidebar id="menu"
     :github="github"
-    :name="name"
-    :desc="desc"
+    :name="site.name"
+    :desc="site.desc"
+    :logo="site.logo"
   />
-  <div class="content pure-u-1">
+  <div class="content pure-u-1" v-cloak>
+    <!-- loading -->
+    <spinner :show="loading"></spinner>
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
   </div>
   <div class="footer pure-u-1">
     <div class="pure-menu pure-menu-horizontal">
       <span>© 2016.</span>
-      <a href="http://maybeul.com">Eureka</a>
+      <a :href=" site.url !== '' ? '//' + site.url : '#' ">{{ site.name }}</a>
       <span>Powered by</span>
-      <a href="https://github.com/eteplus/eblog">EBlog</a>
+      <a href="https://github.com/eteplus/eureka">EUREKA</a> 🤔
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Sidebar from './components/SideBar';
+import Spinner from './components/Spinner';
 
 export default {
-  data() {
-    return {
-      github: 'http://github.com/eteplus',
-      name: 'Eteplus',
-      desc: 'eteplus means eternally plus. <i class="iconfont icon-infinite"></i>'
-    };
+  computed: mapState({
+    site: state => state.config.site,
+    github: state => state.config.github,
+    loading: state => state.global.loading
+  }),
+  created() {
+    this.$store.dispatch('FETCH_CONFIG');
   },
   mounted() {
     this.$nextTick(() => {
@@ -41,6 +49,18 @@ export default {
       const menu = document.getElementById('menu');
       const menuOpen = document.getElementById('menu-open');
       const menuClose = document.getElementById('menu-close');
+      const menuLinks = document.getElementsByClassName('menu__link');
+      for (let i = 0; i < menuLinks.length; i++) {
+        const active = 'active';
+        menuLinks[i].onclick = (e) => {
+          const width = document.documentElement.clientWidth;
+          if (width < 768) {
+            this.toggleClass(app, active);
+            this.toggleClass(menu, active);
+            this.toggleClass(menuOpen, active);
+          }
+        };
+      }
       menuOpen.onclick = (e) => {
         const active = 'active';
         e.preventDefault();
@@ -75,7 +95,8 @@ export default {
     }
   },
   components: {
-    Sidebar
+    Sidebar,
+    Spinner
   }
 };
 </script>
@@ -84,7 +105,17 @@ export default {
 @import "./assets/css/grids-responsive-min.css";
 @import "./assets/css/iconfont.css";
 @import "./assets/css/_base.css";
+@import './assets/css/markdown.css';
 @import "./assets/css/atelier-forest-light.css";
+
+[v-cloak] {
+  display: none;
+}
+
+body {
+  color: #665a5a;
+  /*background: #faf9f5;*/
+}
 
 .app {
   position: relative;
@@ -119,6 +150,7 @@ export default {
   padding: 1em 2em;
 }
 
+
 .content,
 .menu-open {
   transition: all 0.2s ease-out;
@@ -141,11 +173,25 @@ export default {
   padding: 1em 0;
 }
 
+.markdown-body {
+  padding-top: 1em;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: all .2s ease;
 }
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.list-enter-active,
+.list-leave-active{
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 
 @media (width >=48em) {

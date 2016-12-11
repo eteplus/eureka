@@ -21,6 +21,16 @@ const routes = [
     component: resolve => require(['./views/tags.vue'], resolve)
   },
   {
+    path: '/tags/:tag',
+    name: 'tag',
+    component: resolve => require(['./views/tag.vue'], resolve)
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: resolve => require(['./views/about.vue'], resolve)
+  },
+  {
     path: '*',
     name: '404',
     component: require('./views/404')
@@ -28,4 +38,3 @@ const routes = [
 ];
 
 export default routes;
-

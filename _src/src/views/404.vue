@@ -15,7 +15,8 @@
 
 <style>
 .not-found__message {
-  color: #6d5858;
+  /*color: #6d5858;*/
+  color: #2b72b2;
   font-size: 2em;
   font-style: italic;
   font-family: fantasy;

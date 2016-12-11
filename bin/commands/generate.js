@@ -7,19 +7,22 @@ const fsp = require('fs-promise');
 const matter = require('meta-matter');
 const marked = require('marked');
 const trimHtml = require('trim-html');
+const toml = require('toml-j0.4');
 const rootPath = path.resolve(__dirname, '../../');
 const dataPath = path.resolve(rootPath, 'site/data');
 const postsPath = path.resolve(rootPath, '_source/_posts');
+const pagesPath = path.resolve(rootPath, '_source/_pages');
 const spinner = ora(chalk.blue('Building data files...'));
 
 const builder = (yargs) => {
   marked.setOptions({
     highlight: (code) => {
       return require('highlight.js').highlightAuto(code).value;
-    }
+    },
+    gfm: true
   });
   const argv = yargs.reset()
-    .usage('Usage: eureka build')
+    .usage('Usage: eureka generate')
     .help()
     .showHelpOnFail()
     .argv;
@@ -32,20 +35,49 @@ const handler = (argv) => {
   // create data path
   fse.ensureDirSync(dataPath);
   fse.ensureDirSync(`${dataPath}/posts`); // posts path
-  fse.ensureDirSync(`${dataPath}/archives`) // archives
+  // fse.ensureDirSync(`${dataPath}/archives`) // archives
   fse.ensureDirSync(`${dataPath}/tags`); // tags path
+  fse.ensureDirSync(`${dataPath}/pages`); // pages path
+
+  // config file
+  const configToml = fse.readFileSync(path.resolve(rootPath, '_source/_config.toml'), 'utf-8');
+  let config;
+  try {
+    config = toml.parse(configToml);
+  } catch (e) {
+    if (e instanceof toml.SyntaxError) {
+      throw e;
+    }
+  }
+  fse.outputJSONSync(`${dataPath}/config.json`, config);
+
+  const indexFile = path.resolve(rootPath, 'site/index.html');
+  //It's not be modified if the index.html does not exist.
+  if (test('-f', indexFile)) {
+    // title
+    sed('-i', /<title>[^]+<\/title>/g, `<title>${config.site.name}</title>`, indexFile);
+    // CNAME
+    fse.outputFileSync(path.resolve(rootPath, 'site/CNAME'), config.site.url);
+    if (config.meta) {
+      // keywards
+      sed('-i', /<meta name=\"keywords\" [^>]+\">/g, `<meta name="keywords" content="${config.meta.keywords}">`, indexFile);
+      // description
+      sed('-i', /<meta name=\"description\" [^>]+\">/g, `<meta name="description" content="${config.meta.description}">`, indexFile);
+    }
+  }
 
   const posts = [];
   const archives = {};
   const tags = {};
 
   spinner.start();
+  // postsPath
   fse.walk(postsPath).on('data', (item) => {
     if (item.stats.isDirectory()) {
       return;
     }
     const [year, month, file] = item.path.replace(`${postsPath}/`, '').split(/\//);
-    const filename = path.basename(item.path, '.md');
+    const filename = path.basename(item.path, '.md').replace(/[\，|\s]/g, '-');
     // create post file path
     const filePath = `data/posts/${year}/${month}`;
     fse.ensureDirSync(`${rootPath}/site/${filePath}`);
@@ -60,7 +92,7 @@ const handler = (argv) => {
     if (!data) {
       spinner.text = chalk.red(`SyntaxError: ${item.path} meta can't parse.`);
       spinner.fail();
-      spinner.text = chalk.red('Build failed.');
+      spinner.text = chalk.red('Generate failed.');
       spinner.fail();
       throw new Error(`SyntaxError: meta can't parse`);
     }
@@ -74,14 +106,14 @@ const handler = (argv) => {
     }).html;
     Object.assign(post, {
       description: description,
-      url: `/${filePath}/${filename}.json`
+      url: `/${year}/${month}/${encodeURIComponent(filename)}`
     });
     posts.push(post);
     // post partial info
     const sitem = {
       title: post.title,
       date: post.date,
-      url: `/${filePath}/${filename}.json`
+      url: `/${year}/${month}/${encodeURIComponent(filename)}`
     };
     // archive
     const date = `${year}-${month}`;
@@ -102,24 +134,44 @@ const handler = (argv) => {
     // archives
     fse.outputJSONSync(`${dataPath}/archives.json`, archives);
     // tags
-    const tagList = {};
-    for(let key in tags) {
-      fse.outputJSONSync(`${dataPath}/tags/${key}.json`, tags[key]);
-      tagList[key] = {
-        total: tags[key].length,
-        url: `/data/tags/${key}.json`
-      };
+    const tagList = [];
+    for(let name in tags) {
+      fse.outputJSONSync(`${dataPath}/tags/${name}.json`, tags[name]);
+      tagList.push({
+        name: name,
+        total: tags[name].length,
+        url: `/data/tags/${name}.json`
+      });
     }
     fse.outputJSONSync(`${dataPath}/tags.json`, tagList);
-    spinner.text = chalk.green('Build succeed');
+    spinner.text = chalk.green('Generate config, posts, tags, archives successfully');
+    spinner.succeed();
+  });
+
+  // pagesPath
+  fse.walk(pagesPath).on('data', (item) => {
+    if (item.stats.isDirectory()) {
+      return;
+    }
+    const filename = path.basename(item.path, '.md');
+    const markdown = fse.readFileSync(item.path, 'utf-8');
+    const content = marked(markdown);
+    const page = {
+      name: filename,
+      content
+    };
+    fse.outputJSONSync(`${rootPath}/site/data/pages/${filename}.json`, page);
+  })
+  .on('end', () => {
+    spinner.text = chalk.green('Generate pages successfully');
     spinner.succeed();
   });
 };
 
 module.exports = {
-  command: `build`,
+  command: `generate`,
   aliases: [],
-  describe: 'Builds the data files into the desired destination',
+  describe: 'Generate the data files into site floder',
   builder: builder,
   handler: handler
 }

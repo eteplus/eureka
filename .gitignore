@@ -7,3 +7,9 @@ yarn-error.log
 .vscode/
 _source/_posts/
 site/data/
+site/static/
+site/index.html
+site/CNAME
+
+jsconfig.json
+resource.json

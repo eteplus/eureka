@@ -5,7 +5,7 @@
   </button>
   <div class="menu__profile">
     <router-link :to="{ name: 'home' }">
-      <img class="menu__logo" src="/static/img/ulike_black.png" :alt="name + '\'s blog'">
+      <img class="menu__logo" :src=" '/static/' + logo " :alt="name + '\'s blog'">
     </router-link>
     <span>{{ name }}</span>
     <small v-if="desc" v-html="desc"></small>
@@ -30,15 +30,16 @@
       </router-link>
     </li>
     <li>
-      <a :href="github" title="github" class="menu__link">
+      <router-link :to="{ name: 'about' }" title="关于" class="menu__link">
+        <i class="menu__icon iconfont icon-account"></i>
+        <span>About</span>
+      </router-link>
+    </li>
+    <li v-if="github.show">
+      <a :href="github.url" title="github" class="menu__link">
         <i class="menu__icon iconfont icon-github"></i>
         <span>Github</span>
       </a>
-    </li>
-    <li>
-      <a href="/about/" title="关于" class="menu__link">
-        <i class="menu__icon iconfont icon-account"></i>
-        <span>About</span></a>
     </li>
   </ul>
 </div>
@@ -49,7 +50,8 @@ export default {
   props: {
     name: String,
     desc: String,
-    github: String
+    logo: String,
+    github: Object
   }
 };
 </script>
@@ -99,7 +101,6 @@ export default {
 
   @e logo {
     width: 50%;
-    height: 50%;
     border-radius: 70px;
     overflow: hidden;
   }
@@ -142,7 +143,9 @@ export default {
   font-family: "Playfair Display", serif;
   font-style: italic;
   height: 15px;
-  line-height: 15px;
+  line-height: 1.5;
+  display: inline-block;
+  padding: 0 15px 0 15px;
 
   & i {
     font-style: italic;

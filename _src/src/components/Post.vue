@@ -1,9 +1,9 @@
 <template>
-  <section class="post pure-u-1 pure-u-xg-1-2">
+  <section>
     <header class="post__header">
-      <img class="post__avatar" :alt="author + '&#x27;s avatar'" height="48" width="48" :src="avatar">
+      <!-- <img class="post__avatar" :alt="author + '&#x27;s avatar'" height="48" width="48" :src="avatar"> -->
 
-      <router-link :to="{ name: 'article', params: { year: year, month: month, title: title }}" class="post__title">
+      <router-link :to="{ path: '/article' + url }" class="post__title">
         <h2>{{title}}</h2>
       </router-link>
 
@@ -12,18 +12,20 @@
         &nbsp;<a href="#" class="post__author">{{author}}</a>
       </p>
     </header>
-    <div class="post__description">
+    <div class="post__description markdown-body">
       <p v-html="description"></p>
     </div>
     <div class="post__footer">
       <div class="post__tags">
-        <a class="post__tag "
-          href="#"
+        <router-link class="post__tag pure-button"
+          :to="{ path: '/tags/' + tag }"
           v-for="tag in tags">
           {{tag}}
-        </a>
+        </router-link>
       </div>
+      <!--
       <router-link :to="{ name: 'article', params: { year: year, month: month, title: title }}" class="post__link-btn">Read More ...</router-link>
+      -->
     </div>
   </section>
 </template>
@@ -61,6 +63,7 @@ export default {
   padding-bottom: 2em;
   padding-right: 1em;
   border-bottom: 1px dashed #eee;
+  transition: all .3s;
 
   @e title {
     display: block;
@@ -91,13 +94,18 @@ export default {
   }
 
   @e tag {
-    padding: 0.3em 0.4em;
+    min-width: 50px;
     color: #fff;
-    background: #999;
+    /*background: #999;*/
     font-size: 80%;
-    border-radius: 0.3em;
+    height: 2em;
+    line-height: 1;
+    border-radius: 20px;
+    margin-top: 0.4em;
     margin-right: 0.4rem;
-    background: #4d85d1;
+    color: #4d85d1;
+    border: 1px solid #4d85d1;
+    background: white;
 
     @m css {
       background: #5aba59;
@@ -121,7 +129,7 @@ export default {
   }
 
   & h2 {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.5em;
   }
 }

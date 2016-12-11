@@ -5,19 +5,24 @@ import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import App from './App';
 import routes from './routes';
-import { state, actions, mutations } from './store';
+import STORE from './store';
 
-Vue.config.devtools = process.env.NODE_ENV !== 'production';
+const { state, actions, mutations } = STORE;
+
+const isDev = process.env.NODE_ENV !== 'production';
+
+Vue.config.devtools = isDev;
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes
 });
 
 const store = new Vuex.Store({
+  strict: isDev,
   state,
   actions,
   mutations
@@ -27,8 +32,8 @@ sync(store, router);
 
 /* eslint-disable no-new */
 const app = new Vue({
-  store,
   router,
+  store,
   render: h => h(App)
 });
 
