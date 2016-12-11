@@ -8,14 +8,13 @@
 
 ## Screenshot
 <p style="text-align:center;">
-<img src="./_source/_images/posts.jpg" alt="pc-posts" width="800" style="border: 1px solid #ebebeb;"/>
+<img src="./_source/_images/posts-border.jpg" alt="pc-posts" width="800"/>
 </p>
 <p style="text-align:center;">
-<img src="./_source/_images/article.jpg" alt="pc-article" width="800" style="border: 1px solid #ebebeb;"/>
+<img src="./_source/_images/article-border.jpg" alt="pc-article" width="800"/>
 </p>
 <p style="text-align:center;">
-<img src="./_source/_images/posts-mobile.jpg" alt="mobile-posts" style="border: 1px solid #ebebeb;" width="375"/>
-<img src="./_source/_images/article-mobile.jpg" alt="mobile-article" style="border: 1px solid #ebebeb;margin-left: 50px;" width="375"/>
+<img src="./_source/_images/posts-article-mobile.jpg" alt="posts-article-mobile" width="800"/>
 </p>
 
 ## Easy to use
