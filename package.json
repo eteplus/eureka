@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node _src/build/dev-server.js",
-    "build": "node _src/build/build.js",
+    "build": "node _src/build/build.js && eureka generate",
     "eslint": "eslint --ext .js,.vue _src"
   },
   "dependencies": {

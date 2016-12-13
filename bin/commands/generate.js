@@ -1,3 +1,4 @@
+console.log('\nEureka Generate: ');
 require('shelljs/global');
 const ora = require('ora');
 const path = require('path');
@@ -12,7 +13,7 @@ const rootPath = path.resolve(__dirname, '../../');
 const dataPath = path.resolve(rootPath, 'site/data');
 const postsPath = path.resolve(rootPath, '_source/_posts');
 const pagesPath = path.resolve(rootPath, '_source/_pages');
-const spinner = ora(chalk.blue('Building data files...'));
+const spinner = ora(chalk.blue('Generating json files...\n'));
 
 const builder = (yargs) => {
   marked.setOptions({
