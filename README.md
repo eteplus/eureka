@@ -1,4 +1,4 @@
-# Eureka 🤔 ![Build Status](https://travis-ci.org/eteplus/eureka.svg?branch=develop)
+# Eureka 🤔 [![Build Status](https://travis-ci.org/eteplus/eureka.svg?branch=develop)](https://travis-ci.org/eteplus/eureka)
 
 > Eureka! you can record the first snapshots of a **Eureka** moment. 🤔
 
