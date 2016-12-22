@@ -1,40 +1,21 @@
 require('shelljs/global');
-const ora = require('ora');
 const path = require('path');
 const chalk = require('chalk');
 const date = require('../utils/date');
+const util = require('../utils/util');
 const rootPath = path.resolve(__dirname, '../../');
 const filePath = path.resolve(rootPath, `_source/_posts/${date.year}/${date.month}`);
-const spinner = ora(chalk.blue('Creating post..'));
-
-const createPost = (title) => {
-  const basename = `${title}.md`;
-  const wrap = str => parseInt(str, 10) < 10 ? `0${str}` : str;
-  const datetime = `${date.year}-${wrap(date.month)}-${wrap(date.day)} ${wrap(date.hours)}:${wrap(date.minutes)}:${wrap(date.seconds)}`;
-  cd(filePath);
-  set('-e');
-  cp(`${rootPath}/_source/_templates/post.md`, basename);
-  sed('-i', '{{ title }}', title, basename);
-  sed('-i', '{{ author }}', 'eteplus', basename);
-  sed('-i', '{{ date }}', datetime, basename);
-  spinner.text = chalk.green('Create new post succeed：') + `${filePath}/${basename}`;
-  spinner.succeed();
-}
-
-const createFolder = () => {
-  spinner.text = chalk.blue('Creating folder..');
-  mkdir('-p', filePath);
-  spinner.text = chalk.green('Create folder succeed：') + filePath;
-  spinner.succeed();
-}
 
 const builder = (yargs) => {
   const argv = yargs.reset()
-    .usage('Usage: eureka new <title> | --title=<title>')
-    .example(`eureka new 'welcome'`, `create post with title of 'welcome'`)
-    .example(`eureka new --title='Eureka'`, `create post with title of 'Eureka'`)
+    .usage('Usage: eureka new <title> [template]')
+    .example(`eureka new 'welcome'`, `use the default template from '_config.toml' and create post with title of 'welcome'`)
+    .example(`eureka new 'welcome' 'custom'`, `use 'custom.md' as the template and create post with title of 'welcome'`)
+    .example(`eureka new --title='Eureka' --template='custom'`, `use 'custom.md' as the template and create post with title of 'Eureka'`)
     .string('title')
     .describe('title', `Post title. Wrap it with ${chalk.red('quotations')} to escape.`)
+    .string('template')
+    .describe('template', `If no ${chalk.red('template')} is provided, eureka will use the default_template from _config.toml. `)
     .help()
     .showHelpOnFail()
     .argv;
@@ -47,19 +28,27 @@ const builder = (yargs) => {
 
 const handler = (argv) => {
   const title = argv._[1] || argv.title;
-  /* folder is not exists */
+  const template = argv._[2] || argv.template || 'post';
+  if (template && template !== 'post') {
+    if (!test('-f', `${rootPath}/_source/_templates/${template}.md`)) {
+      console.error(chalk.yellow('[WRAN]:'), chalk.yellow(`The ${rootPath}/_source/_templates/${template}.md is not found.`));
+      return;
+    }
+  }
+  console.log(chalk.blue(`[Template]: ${template}.md`));
+  /* The post folder does not exist */
   if (!test('-d', filePath)) {
-    spinner.start();
-    createFolder();
-    createPost(title);
+    util.createFolder(filePath);
+    util.createPost(title, template, filePath);
     return;
   }
-  if (!test('-f', `${filePath}/${title}.md`)) {
-    spinner.start();
-    createPost(title);
+  /* The post file already exists */
+  if (test('-f', `${filePath}/${title}.md`)) {
+    console.warn(chalk.yellow('[WRAN]:'), chalk.yellow(`The ${filePath}/${title}.md already exists`));
     return;
   }
-  console.warn(chalk.yellow(`The ${title}.md already exists`));
+  // create post
+  util.createPost(title, template, filePath);
 };
 
 module.exports = {

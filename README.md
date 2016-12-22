@@ -66,11 +66,14 @@ yarn run build # or npm run build
 
 -** Create a new post **
 
-> It will create the Hello-Eureka.md to the ** _source/_posts/{year}/{month} folder **
+> It will create the {title}.md to the ** _source/_posts/{year}/{month} folder **
 
 ```bash
 eureka new "Hello Eureka"
 # _source/_posts/2016/12/Hello-Eureka.md
+
+eureka new "Welcome to use Eureka" "custom"
+# If no template is provided, eureka will use the default_template from _config.toml.
 ```
 
 -** Generate data files **
@@ -107,6 +110,9 @@ url = '' # github page CNAME
 # Logo, Favicon is stored in the '_src/static' folder.
 logo = 'img/eureka.png' # _src/static/img/eureka.png
 # Favicon _src/static/favicon.ico
+
+# '_source/template/post.md'
+default_template = 'post' # the default template of post.
 
 [meta] # optional <meta>
 # default 'Eureka,blog'

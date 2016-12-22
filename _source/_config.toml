@@ -7,6 +7,9 @@ url = '' # github page CNAME
 logo = 'img/eureka.png' # _src/static/img/ulike_black.png
 # Favicon _src/static/favicon.ico
 
+# '_source/template/post.md'
+default_template = 'post'
+
 [meta] # optional
 # default
 keywords = 'eureka,blog,simple,fast,flexible'
