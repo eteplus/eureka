@@ -7,7 +7,7 @@
     "eureka": "bin/eureka"
   },
   "scripts": {
-    "dev": "node _src/build/dev-server.js",
+    "dev": "eureka generate && node _src/build/dev-server.js",
     "build": "node _src/build/build.js && eureka generate",
     "eslint": "eslint --ext .js,.vue _src"
   },
@@ -78,8 +78,8 @@
     "spa"
   ],
   "engines": {
-    "node": ">= 7.0.0",
-    "npm": ">= 3.10.8"
+    "node": ">= 6.9.2",
+    "npm": ">= 3.10.9"
   },
   "repository": {
     "type": "git",

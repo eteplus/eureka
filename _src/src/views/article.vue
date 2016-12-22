@@ -1,6 +1,6 @@
 <template>
 <div class="article">
-  <div class="page-subhead" v-show="loading">正在加载中...</div>
+  <div class="page-subhead" v-show="loading">Loading...</div>
   <transition name="article">
     <div class="article__title" v-show="!loading" v-cloak>
       <h1>{{article.title}}</h1>
