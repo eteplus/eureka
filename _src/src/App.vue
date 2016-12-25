@@ -102,6 +102,7 @@ export default {
 </script>
 
 <style>
+/* import other style */
 @import "./assets/css/grids-responsive-min.css";
 @import "./assets/css/iconfont.css";
 @import "./assets/css/_base.css";
@@ -147,9 +148,8 @@ body {
 }
 
 .content {
-  padding: 1em 2em;
+  padding: 1em;
 }
-
 
 .content,
 .menu-open {
@@ -164,6 +164,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.1em;
   padding-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .footer {
@@ -184,14 +185,13 @@ body {
   opacity: 0
 }
 
-.list-enter-active,
-.list-leave-active{
-  opacity: 0;
-  transform: translateY(-30px);
+.list-enter-active
+.list-leave-active {
+  transition: all .2s ease-in;
 }
 
-.list-leave-active {
-  position: absolute;
+.list-enter, .list-leave-active {
+  opacity: 0;
 }
 
 @media (width >=48em) {
@@ -208,8 +208,8 @@ body {
     /*left: 250px;*/
   }
   .content {
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
   }
 }
 

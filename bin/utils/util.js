@@ -4,6 +4,16 @@ const chalk = require('chalk');
 const date = require('./date');
 const spinner = ora(chalk.blue('Creating post..\n'));
 const rootPath = path.resolve(__dirname, '../../');
+
+/**
+ * array sort
+ */
+const sortByDate = (array) => {
+  array.sort((a, b) => {
+    return +new Date(b.date) - +new Date(a.date);
+  });
+};
+
 /**
  * create the post markdown file
  */
@@ -35,5 +45,6 @@ const createFolder = (filePath) => {
 
 module.exports = {
   createPost,
-  createFolder
+  createFolder,
+  sortByDate
 }

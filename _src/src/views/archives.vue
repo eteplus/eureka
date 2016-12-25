@@ -4,9 +4,9 @@
     归档 (Archives)
   </div>
   <transition-group tag="div" name="list">
-    <div class="archive" v-for="(posts, date) in archives" :key="date">
-      <h3>&nbsp; {{date}}</h3>
-      <post-link :posts="posts">
+    <div class="archive" v-for="archive in archives" :key="archive.date">
+      <h3>&nbsp; {{archive.date}}</h3>
+      <post-link :posts="archive.posts">
     </div>
   </transition-group>
 </div>

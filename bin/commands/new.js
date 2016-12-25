@@ -30,6 +30,7 @@ const handler = (argv) => {
   const title = argv._[1] || argv.title;
   const template = argv._[2] || argv.template || 'post';
   if (template && template !== 'post') {
+    /* the template file does not exist */
     if (!test('-f', `${rootPath}/_source/_templates/${template}.md`)) {
       console.error(chalk.yellow('[WRAN]:'), chalk.yellow(`The ${rootPath}/_source/_templates/${template}.md is not found.`));
       return;

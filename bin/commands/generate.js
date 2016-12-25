@@ -4,11 +4,11 @@ const ora = require('ora');
 const path = require('path');
 const chalk = require('chalk');
 const fse = require('fs-extra');
-const fsp = require('fs-promise');
 const matter = require('meta-matter');
 const marked = require('marked');
 const trimHtml = require('trim-html');
 const toml = require('toml-j0.4');
+const util = require('../utils/util.js');
 const rootPath = path.resolve(__dirname, '../../');
 const dataPath = path.resolve(rootPath, 'site/data');
 const postsPath = path.resolve(rootPath, '_source/_posts');
@@ -68,7 +68,8 @@ const handler = (argv) => {
   }
 
   const posts = [];
-  const archives = {};
+  const archive = {};
+  const archives = [];
   const tags = {};
 
   spinner.start();
@@ -118,8 +119,8 @@ const handler = (argv) => {
     };
     // archive
     const date = `${year}-${month}`;
-    !archives[date] ? archives[date] = [] : true;
-    archives[date].push(sitem);
+    !archive[date] ? archive[date] = [] : true;
+    archive[date].push(sitem);
     // tags
     post.tags.forEach((tag) => {
       !tags[tag] ? tags[tag] = [] : true;
@@ -131,12 +132,21 @@ const handler = (argv) => {
   })
   .on('end', () => {
     // posts
+    util.sortByDate(posts);
     fse.outputJSONSync(`${dataPath}/posts.json`, posts);
     // archives
+    for (let date in archive) {
+      archives.push({
+        date,
+        posts: archive[date]
+      });
+    }
+    util.sortByDate(archives);
     fse.outputJSONSync(`${dataPath}/archives.json`, archives);
     // tags
     const tagList = [];
     for(let name in tags) {
+      util.sortByDate(tags[name]);
       fse.outputJSONSync(`${dataPath}/tags/${name}.json`, tags[name]);
       tagList.push({
         name: name,
@@ -149,7 +159,7 @@ const handler = (argv) => {
     spinner.succeed();
   });
 
-  // pagesPath
+  // pages path
   fse.walk(pagesPath).on('data', (item) => {
     if (item.stats.isDirectory()) {
       return;

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="post pure-u-1 pure-u-xl-2-2">
     <header class="post__header">
       <!-- <img class="post__avatar" :alt="author + '&#x27;s avatar'" height="48" width="48" :src="avatar"> -->
 
@@ -60,10 +60,14 @@ export default {
 <style>
 @b post {
   overflow: hidden;
-  padding-bottom: 2em;
-  padding-right: 1em;
-  border-bottom: 1px dashed #eee;
+  /*padding-bottom: 2em;*/
+  /*padding-right: 1em;*/
+  padding: 0 1.5em 1.5em 1.5em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  /*border: 1px dashed #eee;*/
   transition: all .3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   @e title {
     display: block;
